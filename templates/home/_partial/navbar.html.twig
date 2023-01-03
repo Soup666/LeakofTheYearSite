@@ -1,0 +1,53 @@
+{% macro nav_link(name, icon, route, additionalRoutes = []) %}
+    {% set currentRoute = app.request.get("_route") %}
+
+    <li class="nav-item">
+        <a class="nav-link {% if currentRoute == route or currentRoute in additionalRoutes %}active{% endif %}" href="{{ path(route) }}">
+            <i class="fe {{ icon }}"></i> {{ name }}
+        </a>
+    </li>
+{% endmacro %}
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+
+        <a class="navbar-brand ms-3" href="{{ path("home") }}">
+            <img src="{{ asset('assets/img/Logo-dark.png') }}" class="navbar-brand-img mx-auto" alt="Logo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav">
+
+                {{ _self.nav_link('Top Leaks', '', 'top_leaks') }}
+                {{ _self.nav_link('Discover', '', 't') }}
+                {{ _self.nav_link('New Releases', '', 't') }}
+                {{ _self.nav_link('Lists', '', 't') }}
+                {{ _self.nav_link('Genres', '', 't') }}
+                {{ _self.nav_link('News', '', 't') }}
+                {{ _self.nav_link('Community', '', 't') }}
+            </ul>
+
+        </div>
+
+        <div class="navbar-user d-none d-md-flex me-3" id="sidebarUser">
+            <div class="dropdown">
+                <a href="#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ app.user.getUsername() }}
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarIconCopy">
+                    {% if app.user.isAdmin %}
+                        <a href="{{ path("admin") }}" class="dropdown-item">Admin</a>
+                        <a href="{{ path("users_edit", {'id': app.user.id }) }}" class="dropdown-item">Edit Profile</a>
+                    {% endif %}
+                    <a href="{{ path("auth_logout") }}" class="dropdown-item">Logout</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</nav>

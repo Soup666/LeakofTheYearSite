@@ -1,0 +1,203 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body_start %}
+    {{ form_start(form) }}
+{% endblock %}
+
+{% block header_title %}Tapes{% endblock %}
+{% block header_pretitle %}{% if updating %}Edit{% else %}Add New{% endif %} Tape{% endblock %}
+
+{% block header_actions %}
+    <a href="{{ path('tapes') }}" class="btn-light btn me-2">Back</a>
+    {{ form_widget(form.save) }}
+{% endblock %}
+
+{% block main %}
+    {% if updating %}
+    <div class="row mb-3">
+        <div class="col-4">
+            <img src="{{ cover }}" width="100%" alt="cover">
+        </div>
+        <div class="col-md">
+            <div class="row">
+                <h1><strong>{{ tape.name }}</strong></h1>
+            </div>
+            <div class="row">
+                {% for a in tape.artist %}
+                <h4><span class="badge bg-secondary">{{ a.name }}</span></h4>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endif %}
+
+    <div class="row mb-3">
+        <div class="col-md">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+
+        <div class="col-md">
+            {{ form_label(form.releaseYear) }}
+            {{ form_widget(form.releaseYear, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+
+        <div class="col-md">
+            {{ form_label(form.artist) }}
+            {{ form_widget(form.artist) }}
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="row mb-3">
+
+        <div class="col-md">
+            {{ form_label(form.cover) }}
+            {{ form_widget(form.cover, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+        <div class="col-md">
+            {{ form_label(form.coverUrl) }}
+            {{ form_widget(form.coverUrl, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md">
+            {{ form_label(form.audioFile) }}
+            {{ form_widget(form.audioFile, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+    </div>
+
+    <hr class="my-3">
+
+    <div class="row mb-3">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-md">
+                {{ form_row(form.tags)}}
+
+                <button type="button"
+                    class="add-another-collection-widget form-control form-control-sm bg-primary text-white"
+                    data-list-selector="#tape_tags"
+                    data-list-id="tags">Add another Tag</button>
+
+                <button type="button"
+                class="delete-another-collection-widget form-control form-control-sm bg-danger text-white"
+                data-list-selector="#tape_tags"
+                data-list-id="tags">Delete Tag</button>
+
+                </div>
+                <div class="col-md">
+                    <ul id="tags" class="list-group">
+
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    {{ form_row(form.genres)}}
+
+                    <button type="button"
+                        class="add-another-collection-widget form-control form-control-sm bg-primary text-white"
+                        data-list-selector="#tape_genres"
+                        data-list-id="genres">Add another Genre</button>
+
+                    <button type="button"
+                    class="delete-another-collection-widget form-control form-control-sm bg-danger text-white"
+                    data-list-selector="#tape_genres"
+                    data-list-id="genres">Delete Tag</button>
+
+                </div>
+                <div class="col-md">
+                    
+                    <ul id="genres" class="list-group">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            {{ form_row(form.label) }}
+            {{ form_row(form.format) }}
+        </div>
+    </div>
+
+    <hr class="mt-3">
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.associate) }}
+        </div>
+    </div>
+
+    <hr class="mt-3">
+
+
+    {{ form_row(form._token) }}
+{% endblock %}
+
+{% block body_end %}
+    {{ form_end(form, {render_rest: false}) }}
+{% endblock %}
+
+
+{% block scripts %}
+
+    <script>
+        $(document).ready(function() {
+            $('#tape_artist').select2({
+                width: '100%',
+            });
+            $('#tape_label').select2({
+                width: '100%',
+            });
+            $('#tape_associate').select2({
+                width: '100%',
+            });
+        });
+
+        // add-collection-widget.js
+        jQuery(document).ready(function ($) {
+            jQuery('.add-another-collection-widget').click(function (e) {
+                var list = jQuery(jQuery(this).attr('data-list-selector'));
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter') || list.children().length;
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                counter++;
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                console.log(newWidget);
+
+                // create a new list element and add it to the list
+                var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+                $('#' + $(this).attr('data-list-id')).append(newWidget);
+
+            });
+
+            $('.delete-another-collection-widget').click(function(e) {
+                var list = jQuery(jQuery(this).attr('data-list-selector'));
+                var counter = list.data('widget-counter') || list.children().length;
+                counter--;
+                list.data('widget-counter', counter);
+                $('#' + $(this).attr('data-list-id')).children().last().remove();
+            });
+        });
+    </script>
+{% endblock %}
