@@ -35,8 +35,11 @@
 
         <div class="navbar-user d-none d-md-flex me-3" id="sidebarUser">
             <div class="dropdown">
-                <a href="#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ app.user.getUsername() }}
+
+                <a href="#" class="avatar avatar-sm dropdown-toggle"  id="sidebarIconCopy" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="avatar-title rounded-circle">
+                        {{ app.user.getInitials }}
+                    </span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarIconCopy">

@@ -67,6 +67,9 @@ class Tape
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $audioFile = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $extension = null;
+
 
     public function __construct()
     {
@@ -422,6 +425,18 @@ class Tape
     public function setAudioFile(?string $audioFile): self
     {
         $this->audioFile = $audioFile;
+
+        return $this;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(?string $extension): self
+    {
+        $this->extension = $extension;
 
         return $this;
     }

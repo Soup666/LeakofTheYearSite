@@ -175,9 +175,6 @@
       </parameter>
     </parameter>
     <parameter key="env(VAR_DUMPER_SERVER)">127.0.0.1:9912</parameter>
-    <parameter key="doctrine.dbal.logger.chain.class">Doctrine\DBAL\Logging\LoggerChain</parameter>
-    <parameter key="doctrine.dbal.logger.profiling.class">Doctrine\DBAL\Logging\DebugStack</parameter>
-    <parameter key="doctrine.dbal.logger.class">Symfony\Bridge\Doctrine\Logger\DbalLogger</parameter>
     <parameter key="doctrine.dbal.configuration.class">Doctrine\DBAL\Configuration</parameter>
     <parameter key="doctrine.data_collector.class">Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector</parameter>
     <parameter key="doctrine.dbal.connection.event_manager.class">Symfony\Bridge\Doctrine\ContainerAwareEventManager</parameter>
@@ -241,6 +238,7 @@
     <parameter key="doctrine.orm.second_level_cache.cache_configuration.class">Doctrine\ORM\Cache\CacheConfiguration</parameter>
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
+    <parameter key="doctrine.orm.enable_lazy_ghost_objects">false</parameter>
     <parameter key="doctrine.orm.proxy_dir">/var/www/symfony/var/cache/dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
     <parameter key="doctrine.migrations.preferred_em">null</parameter>
@@ -375,6 +373,14 @@
       <tag name="controller.service_arguments"/>
       <tag name="routing.route_loader"/>
     </service>
+    <service id="App\Controller\Api\LeakFileApi" class="App\Controller\Api\LeakFileApi" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <argument type="service" id="App\Repository\LeakFileRepository"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.jIxfAsi.App\Controller\Api\LeakFileApi"/>
+      </call>
+    </service>
     <service id="App\Controller\ArtistController" class="App\Controller\ArtistController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -470,6 +476,10 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Repository\LeakFileRepository" class="App\Repository\LeakFileRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="App\Repository\ResetPasswordRequestRepository" class="App\Repository\ResetPasswordRequestRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
@@ -497,6 +507,12 @@
       <argument type="service" id="slugger"/>
     </service>
     <service id="App\Service\GeniusService" class="App\Service\GeniusService" autowire="true" autoconfigure="true"/>
+    <service id="App\Service\LeakFileService" class="App\Service\LeakFileService" autowire="true" autoconfigure="true">
+      <argument type="service" id="App\Service\FTPService"/>
+      <argument type="service" id="App\Repository\LeakFileRepository"/>
+      <argument type="service" id="App\Repository\ArtistRepository"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+    </service>
     <service id="App\Service\TapeService" class="App\Service\TapeService" autowire="true" autoconfigure="true">
       <argument type="service" id="doctrine"/>
     </service>
@@ -723,6 +739,7 @@
       <argument type="iterator">
         <argument type="service" id="slugger"/>
         <argument type="service" id="translator.default"/>
+        <argument type="service" id="translation.locale_switcher"/>
       </argument>
       <argument type="service" id="request_stack"/>
     </service>
@@ -2170,6 +2187,7 @@
     </service>
     <service id="translation.locale_switcher" class="Symfony\Component\Translation\LocaleSwitcher">
       <tag name="kernel.reset" method="reset"/>
+      <tag name="kernel.locale_aware"/>
       <argument>en</argument>
       <argument type="tagged_iterator" tag="kernel.locale_aware"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
@@ -2868,7 +2886,7 @@
     <service id="annotations.reader" class="Doctrine\Common\Annotations\AnnotationReader">
       <call method="addGlobalIgnoredName">
         <argument>required</argument>
-        <argument type="service" id="annotations.dummy_registry"/>
+        <argument type="service" id="annotations.dummy_registry" on-invalid="ignore"/>
       </call>
     </service>
     <service id="annotations.dummy_registry" class="Doctrine\Common\Annotations\AnnotationRegistry">
@@ -4556,14 +4574,6 @@
     <service id="maker.maker.make_stimulus_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeStimulusController">
       <tag name="maker.command"/>
     </service>
-    <service id="doctrine.dbal.logger.chain" class="Doctrine\DBAL\Logging\LoggerChain" abstract="true"/>
-    <service id="doctrine.dbal.logger.profiling" class="Doctrine\DBAL\Logging\DebugStack" abstract="true"/>
-    <service id="doctrine.dbal.logger.backtrace" class="Doctrine\Bundle\DoctrineBundle\Dbal\Logging\BacktraceLogger" abstract="true"/>
-    <service id="doctrine.dbal.logger" class="Symfony\Bridge\Doctrine\Logger\DbalLogger">
-      <tag name="monolog.logger" channel="doctrine"/>
-      <argument>null</argument>
-      <argument type="service" id="debug.stopwatch" on-invalid="null"/>
-    </service>
     <service id="data_collector.doctrine" class="Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector">
       <tag name="data_collector" template="@Doctrine/Collector/db.html.twig" id="db" priority="250"/>
       <argument type="service" id="doctrine"/>
@@ -4727,7 +4737,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.6eo6ngL"/>
+      <argument type="service" id=".service_locator.OElFkZX"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -4772,7 +4782,7 @@
     <service id="doctrine.orm.command.entity_manager_provider" class="Doctrine\Bundle\DoctrineBundle\Orm\ManagerRegistryAwareEntityManagerProvider">
       <argument type="service" id="doctrine"/>
     </service>
-    <service id="doctrine.cache_clear_metadata_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearMetadataCacheDoctrineCommand">
+    <service id="doctrine.cache_clear_metadata_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand">
       <tag name="console.command" command="doctrine:cache:clear-metadata"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4780,7 +4790,7 @@
         <argument>doctrine:cache:clear-metadata</argument>
       </call>
     </service>
-    <service id="doctrine.cache_clear_query_cache_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand">
+    <service id="doctrine.cache_clear_query_cache_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand">
       <tag name="console.command" command="doctrine:cache:clear-query"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4788,7 +4798,7 @@
         <argument>doctrine:cache:clear-query</argument>
       </call>
     </service>
-    <service id="doctrine.cache_clear_result_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearResultCacheDoctrineCommand">
+    <service id="doctrine.cache_clear_result_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand">
       <tag name="console.command" command="doctrine:cache:clear-result"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4796,7 +4806,7 @@
         <argument>doctrine:cache:clear-result</argument>
       </call>
     </service>
-    <service id="doctrine.cache_collection_region_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\CollectionRegionDoctrineCommand">
+    <service id="doctrine.cache_collection_region_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\CollectionRegionCommand">
       <tag name="console.command" command="doctrine:cache:clear-collection-region"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4804,7 +4814,7 @@
         <argument>doctrine:cache:clear-collection-region</argument>
       </call>
     </service>
-    <service id="doctrine.mapping_convert_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ConvertMappingDoctrineCommand">
+    <service id="doctrine.mapping_convert_command" class="Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand">
       <tag name="console.command" command="doctrine:mapping:convert"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4812,7 +4822,7 @@
         <argument>doctrine:mapping:convert</argument>
       </call>
     </service>
-    <service id="doctrine.schema_create_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\CreateSchemaDoctrineCommand">
+    <service id="doctrine.schema_create_command" class="Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand">
       <tag name="console.command" command="doctrine:schema:create"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4820,7 +4830,7 @@
         <argument>doctrine:schema:create</argument>
       </call>
     </service>
-    <service id="doctrine.schema_drop_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\DropSchemaDoctrineCommand">
+    <service id="doctrine.schema_drop_command" class="Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand">
       <tag name="console.command" command="doctrine:schema:drop"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4828,7 +4838,7 @@
         <argument>doctrine:schema:drop</argument>
       </call>
     </service>
-    <service id="doctrine.ensure_production_settings_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\EnsureProductionSettingsDoctrineCommand">
+    <service id="doctrine.ensure_production_settings_command" class="Doctrine\ORM\Tools\Console\Command\EnsureProductionSettingsCommand">
       <tag name="console.command" command="doctrine:ensure-production-settings"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4836,7 +4846,7 @@
         <argument>doctrine:ensure-production-settings</argument>
       </call>
     </service>
-    <service id="doctrine.clear_entity_region_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\EntityRegionCacheDoctrineCommand">
+    <service id="doctrine.clear_entity_region_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\EntityRegionCommand">
       <tag name="console.command" command="doctrine:cache:clear-entity-region"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4844,7 +4854,7 @@
         <argument>doctrine:cache:clear-entity-region</argument>
       </call>
     </service>
-    <service id="doctrine.mapping_info_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\InfoDoctrineCommand">
+    <service id="doctrine.mapping_info_command" class="Doctrine\ORM\Tools\Console\Command\InfoCommand">
       <tag name="console.command" command="doctrine:mapping:info"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4852,7 +4862,7 @@
         <argument>doctrine:mapping:info</argument>
       </call>
     </service>
-    <service id="doctrine.clear_query_region_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\QueryRegionCacheDoctrineCommand">
+    <service id="doctrine.clear_query_region_command" class="Doctrine\ORM\Tools\Console\Command\ClearCache\QueryRegionCommand">
       <tag name="console.command" command="doctrine:cache:clear-query-region"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4860,7 +4870,7 @@
         <argument>doctrine:cache:clear-query-region</argument>
       </call>
     </service>
-    <service id="doctrine.query_dql_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\RunDqlDoctrineCommand">
+    <service id="doctrine.query_dql_command" class="Doctrine\ORM\Tools\Console\Command\RunDqlCommand">
       <tag name="console.command" command="doctrine:query:dql"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4868,7 +4878,7 @@
         <argument>doctrine:query:dql</argument>
       </call>
     </service>
-    <service id="doctrine.schema_update_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\UpdateSchemaDoctrineCommand">
+    <service id="doctrine.schema_update_command" class="Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand">
       <tag name="console.command" command="doctrine:schema:update"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4876,7 +4886,7 @@
         <argument>doctrine:schema:update</argument>
       </call>
     </service>
-    <service id="doctrine.schema_validate_command" class="Doctrine\Bundle\DoctrineBundle\Command\Proxy\ValidateSchemaCommand">
+    <service id="doctrine.schema_validate_command" class="Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand">
       <tag name="console.command" command="doctrine:schema:validate"/>
       <tag name="container.no_preload"/>
       <argument type="service" id="doctrine.orm.command.entity_manager_provider"/>
@@ -4938,6 +4948,9 @@
       </call>
       <call method="setEntityListenerResolver">
         <argument type="service" id="doctrine.orm.default_entity_listener_resolver"/>
+      </call>
+      <call method="setLazyGhostObjectEnabled">
+        <argument>false</argument>
       </call>
       <call method="setRepositoryFactory">
         <argument type="service" id="doctrine.orm.container_repository_factory"/>
@@ -6034,6 +6047,9 @@
     <service id="stof_doctrine_extensions.uploadable.configurator" class="Stof\DoctrineExtensionsBundle\Uploadable\ValidatorConfigurator">
       <argument>true</argument>
     </service>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\Api\LeakFileApi" class="App\Controller\Api\LeakFileApi" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\Api\LeakFileApi" class="App\Controller\Api\LeakFileApi" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\Api\LeakFileApi" class="App\Controller\Api\LeakFileApi" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ArtistController" class="App\Controller\ArtistController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ArtistController" class="App\Controller\ArtistController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\ArtistController" class="App\Controller\ArtistController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -6079,6 +6095,8 @@
     <service id=".abstract.instanceof.App\Repository\GenreRepository" class="App\Repository\GenreRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\LabelRepository" class="App\Repository\LabelRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\LabelRepository" class="App\Repository\LabelRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\LeakFileRepository" class="App\Repository\LeakFileRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\LeakFileRepository" class="App\Repository\LeakFileRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ResetPasswordRequestRepository" class="App\Repository\ResetPasswordRequestRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\ResetPasswordRequestRepository" class="App\Repository\ResetPasswordRequestRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ReviewRepository" class="App\Repository\ReviewRepository" autowire="true" abstract="true"/>
@@ -6424,6 +6442,12 @@
         <argument key="loader" type="service_closure" id=".errored..service_locator.xUrKPVU.Symfony\Component\Config\Loader\LoaderInterface"/>
       </argument>
     </service>
+    <service id=".service_locator.2nAiAEe" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="leakFileService" type="service_closure" id="App\Service\LeakFileService"/>
+      </argument>
+    </service>
     <service id=".service_locator.cg5DUby" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -6483,6 +6507,13 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
+    <service id=".service_locator.1Tq_AO3" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="fileService" type="service_closure" id="App\Service\LeakFileService"/>
+        <argument key="managerRegistry" type="service_closure" id="doctrine"/>
+      </argument>
+    </service>
     <service id=".service_locator.KMVa22K" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -6521,9 +6552,11 @@
         <argument key="user" type="service_closure" id=".errored..service_locator.DliG0z3.App\Entity\User"/>
       </argument>
     </service>
-    <service id=".service_locator.fiMM_Vr" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.TqKXp.S" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Controller\Api\LeakFileApi::updateArtists" type="service_closure" id=".service_locator.2nAiAEe"/>
+        <argument key="App\Controller\Api\LeakFileApi::updateFiles" type="service_closure" id=".service_locator.2nAiAEe"/>
         <argument key="App\Controller\ArtistController::archive" type="service_closure" id=".service_locator.eiWvEfv"/>
         <argument key="App\Controller\ArtistController::edit" type="service_closure" id=".service_locator.eKUB4uF"/>
         <argument key="App\Controller\ArtistController::index" type="service_closure" id=".service_locator.cg5DUby"/>
@@ -6543,7 +6576,7 @@
         <argument key="App\Controller\ResetPasswordController::reset" type="service_closure" id=".service_locator.qwilqiL"/>
         <argument key="App\Controller\TapeController::archive" type="service_closure" id=".service_locator.4516oZ1"/>
         <argument key="App\Controller\TapeController::edit" type="service_closure" id=".service_locator.KMVa22K"/>
-        <argument key="App\Controller\TapeController::index" type="service_closure" id=".service_locator.cg5DUby"/>
+        <argument key="App\Controller\TapeController::index" type="service_closure" id=".service_locator.1Tq_AO3"/>
         <argument key="App\Controller\TapeController::restore" type="service_closure" id=".service_locator.4516oZ1"/>
         <argument key="App\Controller\TapeController::suspend" type="service_closure" id=".service_locator.4516oZ1"/>
         <argument key="App\Controller\TapeController::unsuspend" type="service_closure" id=".service_locator.4516oZ1"/>
@@ -6558,6 +6591,8 @@
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.xUrKPVU"/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.xUrKPVU"/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.xUrKPVU"/>
+        <argument key="App\Controller\Api\LeakFileApi:updateArtists" type="service_closure" id=".service_locator.2nAiAEe"/>
+        <argument key="App\Controller\Api\LeakFileApi:updateFiles" type="service_closure" id=".service_locator.2nAiAEe"/>
         <argument key="App\Controller\ArtistController:archive" type="service_closure" id=".service_locator.eiWvEfv"/>
         <argument key="App\Controller\ArtistController:edit" type="service_closure" id=".service_locator.eKUB4uF"/>
         <argument key="App\Controller\ArtistController:index" type="service_closure" id=".service_locator.cg5DUby"/>
@@ -6577,7 +6612,7 @@
         <argument key="App\Controller\ResetPasswordController:reset" type="service_closure" id=".service_locator.qwilqiL"/>
         <argument key="App\Controller\TapeController:archive" type="service_closure" id=".service_locator.4516oZ1"/>
         <argument key="App\Controller\TapeController:edit" type="service_closure" id=".service_locator.KMVa22K"/>
-        <argument key="App\Controller\TapeController:index" type="service_closure" id=".service_locator.cg5DUby"/>
+        <argument key="App\Controller\TapeController:index" type="service_closure" id=".service_locator.1Tq_AO3"/>
         <argument key="App\Controller\TapeController:restore" type="service_closure" id=".service_locator.4516oZ1"/>
         <argument key="App\Controller\TapeController:suspend" type="service_closure" id=".service_locator.4516oZ1"/>
         <argument key="App\Controller\TapeController:unsuspend" type="service_closure" id=".service_locator.4516oZ1"/>
@@ -6855,13 +6890,14 @@
         <argument key="stof_doctrine_extensions.listener.uploadable" type="service_closure" id="stof_doctrine_extensions.listener.uploadable"/>
       </argument>
     </service>
-    <service id=".service_locator.6eo6ngL" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.OElFkZX" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\ArtistRepository" type="service_closure" id="App\Repository\ArtistRepository"/>
         <argument key="App\Repository\FileRepository" type="service_closure" id="App\Repository\FileRepository"/>
         <argument key="App\Repository\GenreRepository" type="service_closure" id="App\Repository\GenreRepository"/>
         <argument key="App\Repository\LabelRepository" type="service_closure" id="App\Repository\LabelRepository"/>
+        <argument key="App\Repository\LeakFileRepository" type="service_closure" id="App\Repository\LeakFileRepository"/>
         <argument key="App\Repository\ResetPasswordRequestRepository" type="service_closure" id="App\Repository\ResetPasswordRequestRepository"/>
         <argument key="App\Repository\ReviewRepository" type="service_closure" id="App\Repository\ReviewRepository"/>
         <argument key="App\Repository\TagRepository" type="service_closure" id="App\Repository\TagRepository"/>
@@ -6943,6 +6979,12 @@
         <argument key="serializer" type="service_closure" id="serializer" on-invalid="ignore"/>
         <argument key="twig" type="service_closure" id="twig" on-invalid="ignore"/>
       </argument>
+    </service>
+    <service id=".service_locator.jIxfAsi.App\Controller\Api\LeakFileApi" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\Api\LeakFileApi"/>
+      <argument>App\Controller\Api\LeakFileApi</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.jIxfAsi" method="withContext"/>
     </service>
     <service id=".service_locator.jIxfAsi.App\Controller\ArtistController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ArtistController"/>
@@ -7116,6 +7158,14 @@
     <service id="debug.validator.inner" class="Symfony\Component\Validator\Validator\ValidatorInterface">
       <factory service="validator.builder" method="getValidator"/>
     </service>
+    <service id=".debug.http_client.inner" class="Symfony\Contracts\HttpClient\HttpClientInterface">
+      <argument type="collection"/>
+      <argument>6</argument>
+      <call method="setLogger">
+        <argument type="service" id="monolog.logger.http_client" on-invalid="ignore"/>
+      </call>
+      <factory class="Symfony\Component\HttpClient\HttpClient" method="create"/>
+    </service>
     <service id="debug.event_dispatcher.inner" class="Symfony\Component\EventDispatcher\EventDispatcher"/>
     <service id="debug.controller_resolver.inner" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver">
       <argument type="service" id="service_container"/>
@@ -7173,20 +7223,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.fiMM_Vr"/>
+      <argument type="service" id=".service_locator.TqKXp.S"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.fiMM_Vr"/>
-    </service>
-    <service id=".debug.http_client.inner" class="Symfony\Contracts\HttpClient\HttpClientInterface">
-      <argument type="collection"/>
-      <argument>6</argument>
-      <call method="setLogger">
-        <argument type="service" id="monolog.logger.http_client" on-invalid="ignore"/>
-      </call>
-      <factory class="Symfony\Component\HttpClient\HttpClient" method="create"/>
+      <argument type="service" id=".service_locator.TqKXp.S"/>
     </service>
     <service id=".doctrine.orm.default_metadata_driver.inner" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
@@ -7632,7 +7674,7 @@
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.CVX.ESY"/>
+      <argument type="service" id=".service_locator.r2U21_8"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -7732,7 +7774,7 @@
         <argument key="make:stimulus-controller">maker.auto_command.make_stimulus_controller</argument>
       </argument>
     </service>
-    <service id=".service_locator.CVX.ESY" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.r2U21_8" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="console.command.about" type="service_closure" id=".console.command.about.lazy"/>
@@ -8049,7 +8091,7 @@
     <service id="Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager" alias="stof_doctrine_extensions.uploadable.manager"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.gSv9zYw" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.fiMM_Vr"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.TqKXp.S"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
     <service id="Psr\Log\LoggerInterface $consoleLogger" alias="monolog.logger.console"/>
@@ -8071,15 +8113,17 @@
     <service id=".service_locator.0B6QDxm" alias=".service_locator.eiWvEfv"/>
     <service id=".service_locator.oIoRNRj" alias=".service_locator.WX3QJxj"/>
     <service id=".service_locator.33tsZEy" alias=".service_locator.EnhlBww"/>
+    <service id=".service_locator.8kg4WP8" alias=".service_locator.1Tq_AO3"/>
     <service id=".service_locator.jJ6S.1A" alias=".service_locator.KMVa22K"/>
     <service id=".service_locator.y5FqVj4" alias=".service_locator.mGVGY2G"/>
-    <service id=".service_locator.EQdscwT" alias=".service_locator.fiMM_Vr"/>
+    <service id=".service_locator.isfGIx7" alias=".service_locator.TqKXp.S"/>
     <service id=".service_locator.wKF4yn1" alias=".service_locator.19_mNxd"/>
     <service id=".service_locator.RoxAT6U" alias=".service_locator.AbEcyyU"/>
     <service id=".service_locator.985LqEy" alias=".service_locator.pWBC4xF"/>
     <service id=".service_locator.O24_MAy" alias=".service_locator.yY.p4P7"/>
     <service id=".service_locator._eRAkJb" alias=".service_locator.jIxfAsi"/>
     <service id="validator" alias="debug.validator"/>
+    <service id="http_client" alias=".debug.http_client"/>
     <service id="event_dispatcher" alias="debug.event_dispatcher" public="true"/>
     <service id="controller_resolver" alias="debug.controller_resolver"/>
     <service id="argument_resolver" alias="debug.argument_resolver"/>
@@ -8099,9 +8143,9 @@
     <service id="argument_resolver.default" alias="debug.argument_resolver.default"/>
     <service id="argument_resolver.variadic" alias="debug.argument_resolver.variadic"/>
     <service id="argument_resolver.not_tagged_controller" alias="debug.argument_resolver.not_tagged_controller"/>
-    <service id="http_client" alias=".debug.http_client"/>
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id=".service_locator.uo5c0SP" alias=".service_locator.xUrKPVU"/>
+    <service id=".service_locator.jUzoFxo" alias=".service_locator.2nAiAEe"/>
     <service id=".service_locator.UNYEMes" alias=".service_locator.cg5DUby"/>
     <service id=".service_locator.oFNoRQm" alias=".service_locator.eKUB4uF"/>
     <service id=".service_locator.yHKD6lq" alias=".service_locator.eiWvEfv"/>
@@ -8111,6 +8155,7 @@
     <service id=".service_locator.GvQ04yZ" alias=".service_locator.EnhlBww"/>
     <service id=".service_locator.k3yKEdo" alias=".service_locator.6E9xidT"/>
     <service id=".service_locator.DUsslVm" alias=".service_locator.qwilqiL"/>
+    <service id=".service_locator.1ZSWJES" alias=".service_locator.1Tq_AO3"/>
     <service id=".service_locator.rRnr.Lx" alias=".service_locator.KMVa22K"/>
     <service id=".service_locator.BWNuXKJ" alias=".service_locator.4516oZ1"/>
     <service id=".service_locator.YRsh.oA" alias=".service_locator.mGVGY2G"/>

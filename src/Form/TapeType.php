@@ -4,9 +4,12 @@ namespace App\Form;
 
 use App\Entity\Artist;
 use App\Entity\Label;
+use App\Entity\LeakFile;
 use App\Entity\Tape;
+use App\Service\FTPService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -21,10 +24,12 @@ use Symfony\Component\Validator\Constraints\File;
 
 class TapeType extends AbstractType
 {
+    public function __construct(
+    ) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $user = $builder->getData();
-
 
         $tape = $options['tape'];
         $tagNames = [];
@@ -38,6 +43,18 @@ class TapeType extends AbstractType
         }
 
         $builder
+            ->add('db_file', EntityType::class, [
+                'class' => LeakFile::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => false,
+                'label' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ]
+            ])
             ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -53,37 +70,23 @@ class TapeType extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
+            ->add('extension', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ]
+            ])
             ->add('artist', EntityType::class, [
                 'class' => Artist::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('audioFile', FileType::class, [
                 'label' => 'Audio File',
-
-                // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
-
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
-//                'constraints' => [
-//                    new File([
-//                        'mimeTypes' => [
-//                            'audio/mpeg',
-//                            'audio/mp4',
-//                            'audio/mp3',
-//                            'audio/mpeg',
-//                            'audio/ogg',
-//                            'audio/wav',
-//                            'audio/x-wav',
-//                        ],
-//                        'mimeTypesMessage' => 'Please upload a valid Audio file',
-//                    ])
-//                ],
             ])
             ->add('associate', EntityType::class, [
                 'class' => Tape::class,

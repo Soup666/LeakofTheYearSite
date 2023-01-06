@@ -14,6 +14,8 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/api/v1/leak_file/update_files' => [[['_route' => 'api_v1_update_files', '_controller' => 'App\\Controller\\Api\\LeakFileApi::updateFiles'], null, null, null, false, false, null]],
+        '/api/v1/leak_file/update_artists' => [[['_route' => 'api_v1_update_artists', '_controller' => 'App\\Controller\\Api\\LeakFileApi::updateArtists'], null, null, null, false, false, null]],
         '/admin/artists' => [[['_route' => 'artists', '_controller' => 'App\\Controller\\ArtistController::index'], null, null, null, true, false, null]],
         '/admin/artists/create' => [[['_route' => 'artist_create', '_controller' => 'App\\Controller\\ArtistController::edit'], null, null, null, false, false, null]],
         '/admin/artists/add' => [[['_route' => 'app_artist_edit', '_controller' => 'App\\Controller\\ArtistController::edit'], null, null, null, false, false, null]],
@@ -56,39 +58,40 @@ return [
                     .'|error/(\\d+)(?:\\.([^/]++))?(*:159)'
                 .')'
                 .'|/a(?'
+                    .'|pi/v1/leak_file/get_file(?:/([^/]++))?(*:211)'
                     .'|dmin/(?'
                         .'|artists/(?'
-                            .'|edit/([^/]++)(*:205)'
-                            .'|suspend/([^/]++)(*:229)'
-                            .'|unsuspend/([^/]++)(*:255)'
-                            .'|archive/([^/]++)(*:279)'
-                            .'|restore/([^/]++)(*:303)'
+                            .'|edit/([^/]++)(*:251)'
+                            .'|suspend/([^/]++)(*:275)'
+                            .'|unsuspend/([^/]++)(*:301)'
+                            .'|archive/([^/]++)(*:325)'
+                            .'|restore/([^/]++)(*:349)'
                         .')'
                         .'|labels/(?'
-                            .'|edit/([^/]++)(*:335)'
-                            .'|suspend/([^/]++)(*:359)'
-                            .'|unsuspend/([^/]++)(*:385)'
-                            .'|archive/([^/]++)(*:409)'
-                            .'|restore/([^/]++)(*:433)'
+                            .'|edit/([^/]++)(*:381)'
+                            .'|suspend/([^/]++)(*:405)'
+                            .'|unsuspend/([^/]++)(*:431)'
+                            .'|archive/([^/]++)(*:455)'
+                            .'|restore/([^/]++)(*:479)'
                         .')'
                         .'|tapes/(?'
-                            .'|edit/([^/]++)(*:464)'
-                            .'|suspend/([^/]++)(*:488)'
-                            .'|unsuspend/([^/]++)(*:514)'
-                            .'|archive/([^/]++)(*:538)'
-                            .'|restore/([^/]++)(*:562)'
+                            .'|edit/([^/]++)(*:510)'
+                            .'|suspend/([^/]++)(*:534)'
+                            .'|unsuspend/([^/]++)(*:560)'
+                            .'|archive/([^/]++)(*:584)'
+                            .'|restore/([^/]++)(*:608)'
                         .')'
                     .')'
-                    .'|rtist/([^/]++)(*:586)'
+                    .'|rtist/([^/]++)(*:632)'
                 .')'
-                .'|/reset\\-password/reset(?:/([^/]++))?(*:631)'
-                .'|/tape/view/([^/]++)(*:658)'
+                .'|/reset\\-password/reset(?:/([^/]++))?(*:677)'
+                .'|/tape/view/([^/]++)(*:704)'
                 .'|/users/(?'
-                    .'|edit/([^/]++)(*:689)'
-                    .'|suspend/([^/]++)(*:713)'
-                    .'|unsuspend/([^/]++)(*:739)'
-                    .'|archive/([^/]++)(*:763)'
-                    .'|restore/([^/]++)(*:787)'
+                    .'|edit/([^/]++)(*:735)'
+                    .'|suspend/([^/]++)(*:759)'
+                    .'|unsuspend/([^/]++)(*:785)'
+                    .'|archive/([^/]++)(*:809)'
+                    .'|restore/([^/]++)(*:833)'
                 .')'
             .')/?$}sDu',
     ],
@@ -100,29 +103,30 @@ return [
         114 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         124 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         159 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
-        205 => [[['_route' => 'artist_edit', '_controller' => 'App\\Controller\\ArtistController::edit'], ['id'], null, null, false, true, null]],
-        229 => [[['_route' => 'artist_suspend', '_controller' => 'App\\Controller\\ArtistController::suspend'], ['id'], null, null, false, true, null]],
-        255 => [[['_route' => 'artist_unsuspend', '_controller' => 'App\\Controller\\ArtistController::unsuspend'], ['id'], null, null, false, true, null]],
-        279 => [[['_route' => 'artist_archive', '_controller' => 'App\\Controller\\ArtistController::archive'], ['id'], null, null, false, true, null]],
-        303 => [[['_route' => 'artist_restore', '_controller' => 'App\\Controller\\ArtistController::restore'], ['id'], null, null, false, true, null]],
-        335 => [[['_route' => 'label_edit', '_controller' => 'App\\Controller\\LabelController::edit'], ['id'], null, null, false, true, null]],
-        359 => [[['_route' => 'label_suspend', '_controller' => 'App\\Controller\\LabelController::suspend'], ['id'], null, null, false, true, null]],
-        385 => [[['_route' => 'label_unsuspend', '_controller' => 'App\\Controller\\LabelController::unsuspend'], ['id'], null, null, false, true, null]],
-        409 => [[['_route' => 'label_archive', '_controller' => 'App\\Controller\\LabelController::archive'], ['id'], null, null, false, true, null]],
-        433 => [[['_route' => 'label_restore', '_controller' => 'App\\Controller\\LabelController::restore'], ['id'], null, null, false, true, null]],
-        464 => [[['_route' => 'tape_edit', '_controller' => 'App\\Controller\\TapeController::edit'], ['id'], null, null, false, true, null]],
-        488 => [[['_route' => 'tape_suspend', '_controller' => 'App\\Controller\\TapeController::suspend'], ['id'], null, null, false, true, null]],
-        514 => [[['_route' => 'tape_unsuspend', '_controller' => 'App\\Controller\\TapeController::unsuspend'], ['id'], null, null, false, true, null]],
-        538 => [[['_route' => 'tape_archive', '_controller' => 'App\\Controller\\TapeController::archive'], ['id'], null, null, false, true, null]],
-        562 => [[['_route' => 'tape_restore', '_controller' => 'App\\Controller\\TapeController::restore'], ['id'], null, null, false, true, null]],
-        586 => [[['_route' => 'view_artist', '_controller' => 'App\\Controller\\ArtistController::viewArtist'], ['id'], null, null, false, true, null]],
-        631 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
-        658 => [[['_route' => 'view_tape', '_controller' => 'App\\Controller\\TapeController::viewTape'], ['id'], null, null, false, true, null]],
-        689 => [[['_route' => 'users_edit', '_controller' => 'App\\Controller\\UsersController::edit'], ['id'], null, null, false, true, null]],
-        713 => [[['_route' => 'users_suspend', '_controller' => 'App\\Controller\\UsersController::suspend'], ['id'], null, null, false, true, null]],
-        739 => [[['_route' => 'users_unsuspend', '_controller' => 'App\\Controller\\UsersController::unsuspend'], ['id'], null, null, false, true, null]],
-        763 => [[['_route' => 'users_archive', '_controller' => 'App\\Controller\\UsersController::archive'], ['id'], null, null, false, true, null]],
-        787 => [
+        211 => [[['_route' => 'api_v1_leak_files', 'id' => null, '_controller' => 'App\\Controller\\Api\\LeakFileApi::getFile'], ['id'], ['GET' => 0], null, false, true, null]],
+        251 => [[['_route' => 'artist_edit', '_controller' => 'App\\Controller\\ArtistController::edit'], ['id'], null, null, false, true, null]],
+        275 => [[['_route' => 'artist_suspend', '_controller' => 'App\\Controller\\ArtistController::suspend'], ['id'], null, null, false, true, null]],
+        301 => [[['_route' => 'artist_unsuspend', '_controller' => 'App\\Controller\\ArtistController::unsuspend'], ['id'], null, null, false, true, null]],
+        325 => [[['_route' => 'artist_archive', '_controller' => 'App\\Controller\\ArtistController::archive'], ['id'], null, null, false, true, null]],
+        349 => [[['_route' => 'artist_restore', '_controller' => 'App\\Controller\\ArtistController::restore'], ['id'], null, null, false, true, null]],
+        381 => [[['_route' => 'label_edit', '_controller' => 'App\\Controller\\LabelController::edit'], ['id'], null, null, false, true, null]],
+        405 => [[['_route' => 'label_suspend', '_controller' => 'App\\Controller\\LabelController::suspend'], ['id'], null, null, false, true, null]],
+        431 => [[['_route' => 'label_unsuspend', '_controller' => 'App\\Controller\\LabelController::unsuspend'], ['id'], null, null, false, true, null]],
+        455 => [[['_route' => 'label_archive', '_controller' => 'App\\Controller\\LabelController::archive'], ['id'], null, null, false, true, null]],
+        479 => [[['_route' => 'label_restore', '_controller' => 'App\\Controller\\LabelController::restore'], ['id'], null, null, false, true, null]],
+        510 => [[['_route' => 'tape_edit', '_controller' => 'App\\Controller\\TapeController::edit'], ['id'], null, null, false, true, null]],
+        534 => [[['_route' => 'tape_suspend', '_controller' => 'App\\Controller\\TapeController::suspend'], ['id'], null, null, false, true, null]],
+        560 => [[['_route' => 'tape_unsuspend', '_controller' => 'App\\Controller\\TapeController::unsuspend'], ['id'], null, null, false, true, null]],
+        584 => [[['_route' => 'tape_archive', '_controller' => 'App\\Controller\\TapeController::archive'], ['id'], null, null, false, true, null]],
+        608 => [[['_route' => 'tape_restore', '_controller' => 'App\\Controller\\TapeController::restore'], ['id'], null, null, false, true, null]],
+        632 => [[['_route' => 'view_artist', '_controller' => 'App\\Controller\\ArtistController::viewArtist'], ['id'], null, null, false, true, null]],
+        677 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
+        704 => [[['_route' => 'view_tape', '_controller' => 'App\\Controller\\TapeController::viewTape'], ['id'], null, null, false, true, null]],
+        735 => [[['_route' => 'users_edit', '_controller' => 'App\\Controller\\UsersController::edit'], ['id'], null, null, false, true, null]],
+        759 => [[['_route' => 'users_suspend', '_controller' => 'App\\Controller\\UsersController::suspend'], ['id'], null, null, false, true, null]],
+        785 => [[['_route' => 'users_unsuspend', '_controller' => 'App\\Controller\\UsersController::unsuspend'], ['id'], null, null, false, true, null]],
+        809 => [[['_route' => 'users_archive', '_controller' => 'App\\Controller\\UsersController::archive'], ['id'], null, null, false, true, null]],
+        833 => [
             [['_route' => 'users_restore', '_controller' => 'App\\Controller\\UsersController::restore'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

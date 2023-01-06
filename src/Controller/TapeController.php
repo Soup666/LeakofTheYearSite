@@ -10,6 +10,7 @@ use App\Form\TapeType;
 use App\Service\FileUploader;
 use App\Service\FTPService;
 use App\Service\GeniusService;
+use App\Service\LeakFileService;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager;
@@ -26,7 +27,7 @@ class TapeController extends AbstractController
 {
 
     #[Route('/admin/tape', name: 'tapes')]
-    public function index(ManagerRegistry $managerRegistry): Response
+    public function index(ManagerRegistry $managerRegistry, LeakFileService $fileService): Response
     {
         $tapes = $managerRegistry->getRepository(Tape::class)->findAll();
 
@@ -265,7 +266,7 @@ class TapeController extends AbstractController
 
         }
 
-        $path = $ftpservice->downloadFile('Music/' . $tape->getMainArtist()->getName() . '/' . $tape->getName() . '.mp3', $tape->getName() . '.mp3');
+        $path = $ftpservice->downloadFile('Music/' . $tape->getMainArtist()->getName() . '/' . $tape->getName() . '.' . ($tape->getExtension() ?? 'mp3'), $tape->getName() . '.mp3');
 
         $reviews = $managerRegistry->getRepository(Review::class)->findBy([
             'Tape' => $tape,

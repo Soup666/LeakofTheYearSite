@@ -30,9 +30,13 @@ class Artist
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cover = null;
 
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: LeakFile::class)]
+    private Collection $leakFiles;
+
     public function __construct()
     {
         $this->tapes = new ArrayCollection();
+        $this->leakFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,5 +152,35 @@ class Artist
             $count += count($tape->getReviews());
         }
         return $count;
+    }
+
+    /**
+     * @return Collection<int, LeakFile>
+     */
+    public function getLeakFiles(): Collection
+    {
+        return $this->leakFiles;
+    }
+
+    public function addLeakFile(LeakFile $leakFile): self
+    {
+        if (!$this->leakFiles->contains($leakFile)) {
+            $this->leakFiles->add($leakFile);
+            $leakFile->setArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLeakFile(LeakFile $leakFile): self
+    {
+        if ($this->leakFiles->removeElement($leakFile)) {
+            // set the owning side to null (unless already changed)
+            if ($leakFile->getArtist() === $this) {
+                $leakFile->setArtist(null);
+            }
+        }
+
+        return $this;
     }
 }

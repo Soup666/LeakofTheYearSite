@@ -2,33 +2,35 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/assets/runtime.a0d8b7ff.js",
-        "/assets/725.61ee1d4f.js",
-        "/assets/615.06843f5f.js",
-        "/assets/app.758c7726.js"
+        "/assets/runtime.js",
+        "/assets/vendors-node_modules_choices_js_public_assets_scripts_choices_js-node_modules_core-js_modules-5128bb.js",
+        "/assets/vendors-node_modules_shopify_draggable_lib_draggable_bundle_js-node_modules_autosize_dist_aut-0f1ca6.js",
+        "/assets/assets_app_ts.js",
+        "/assets/app.js"
       ],
       "css": [
-        "/assets/615.5f716566.css"
+        "/assets/assets_app_ts.css"
       ]
     },
     "login": {
       "js": [
-        "/assets/runtime.a0d8b7ff.js",
-        "/assets/725.61ee1d4f.js",
-        "/assets/615.06843f5f.js",
-        "/assets/login.7029c85e.js"
+        "/assets/runtime.js",
+        "/assets/vendors-node_modules_choices_js_public_assets_scripts_choices_js-node_modules_core-js_modules-5128bb.js",
+        "/assets/vendors-node_modules_shopify_draggable_lib_draggable_bundle_js-node_modules_autosize_dist_aut-0f1ca6.js",
+        "/assets/assets_app_ts.js",
+        "/assets/login.js"
       ],
       "css": [
-        "/assets/615.5f716566.css"
+        "/assets/assets_app_ts.css"
+      ]
+    },
+    "tapeForm": {
+      "js": [
+        "/assets/runtime.js",
+        "/assets/vendors-node_modules_choices_js_public_assets_scripts_choices_js-node_modules_core-js_modules-5128bb.js",
+        "/assets/vendors-node_modules_core-js_modules_es_function_name_js-node_modules_core-js_modules_es_promise_js.js",
+        "/assets/tapeForm.js"
       ]
     }
-  },
-  "integrity": {
-    "/assets/runtime.a0d8b7ff.js": "sha384-cN+oqr9PhqZV+kCNezdNT7o4vVwiNhYrhfOAFU0bId1IETh5JBnQjVyd23HvtsTA",
-    "/assets/725.61ee1d4f.js": "sha384-KKz6xLpTl6w9HEkeyM67waKe/UjkOSUUzSyfFd24erJnVRO6sMtQcsx8rL21bPVu",
-    "/assets/615.06843f5f.js": "sha384-BdUlkjR4XtLp4UFs6vmpUuVXYXtx5GzkgBAfIxaXMOJRpnP+oOeFNQofBzKABGFu",
-    "/assets/app.758c7726.js": "sha384-s6+PaSzXOaENS7SxUnJ0nFwxRFXPYqWT4EjuKN+1Q0B09UYnS5YHbIlyJ0ji+I5A",
-    "/assets/615.5f716566.css": "sha384-RMFe2lVZ5yH6ER12CP+JYeY328MFJRavwWcN84kIyLS+ystKQZMkZeATen0Uqf/x",
-    "/assets/login.7029c85e.js": "sha384-dgzDI3ZUF8hVYFSpktp8PpTRAILXpcms3iX7Av8/nb+fsBADPq6H/8M9iSi0Em0F"
   }
 }

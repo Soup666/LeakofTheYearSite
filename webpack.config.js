@@ -28,6 +28,8 @@ encore
     .addEntry('app', './assets/app.ts')
     .addEntry('login', './assets/app.ts') // This can be changed to something different later, if using different JS/CSS
 
+    .addEntry('tapeForm', './assets/js/user/tapeForm.ts')
+
     .splitEntryChunks()         // For optimisation
     .enableSingleRuntimeChunk() // Will require an extra script tag for runtime.js
 

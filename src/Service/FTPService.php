@@ -15,6 +15,26 @@ class FTPService {
 
     }
 
+    public function getAllFiles(): bool|array
+    {
+        $files = $this->sftp->nlist('Music/', true);
+        $files = array_filter($files, fn($file) => !in_array($file, ['.', '..']) && !is_dir($file) && !str_ends_with($file, '.'));
+
+        $data = [];
+        foreach ($files as $index=>$file) {
+            $data[$index]['name'] = pathinfo($file, PATHINFO_FILENAME);
+            $data[$index]['path'] = $file;
+            $data[$index]['extension'] = pathinfo($file, PATHINFO_EXTENSION);
+            $data[$index]['artist'] = pathinfo($file, PATHINFO_DIRNAME);
+        }
+
+        return $data;
+    }
+
+    public function getDirectories(): bool|array {
+        return array_filter($this->sftp->nlist('Music/', false), fn($file) => !in_array($file, ['.', '..']));
+    }
+
     public function test($path = '/') {
         return $this->sftp->nlist($path);
     }
