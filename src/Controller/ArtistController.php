@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Artist;
 use App\Entity\Tape;
 use App\Form\ArtistType;
+use App\Service\GeniusService;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -191,13 +192,13 @@ class ArtistController extends AbstractController
     // Frontend
 
     #[Route('/artist/{id}', name: 'view_artist')]
-    public function viewArtist(ManagerRegistry $managerRegistry, Artist $artist): Response
+    public function viewArtist(ManagerRegistry $managerRegistry, GeniusService $geniusService, Artist $artist): Response
     {
         $albums = $artist->getTapes();
-
         return $this->render('artists/frontend/view.html.twig', [
             "artist" => $artist,
             "tapes" => $albums,
+            'genius' => $geniusService
         ]);
     }
 }

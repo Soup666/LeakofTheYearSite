@@ -6468,6 +6468,14 @@
         <argument key="managerRegistry" type="service_closure" id="doctrine"/>
       </argument>
     </service>
+    <service id=".service_locator.HH7nFFL" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="artist" type="service_closure" id=".errored..service_locator.HH7nFFL.App\Entity\Artist"/>
+        <argument key="geniusService" type="service_closure" id="App\Service\GeniusService"/>
+        <argument key="managerRegistry" type="service_closure" id="doctrine"/>
+      </argument>
+    </service>
     <service id=".service_locator.dQsEc8u" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -6552,7 +6560,7 @@
         <argument key="user" type="service_closure" id=".errored..service_locator.DliG0z3.App\Entity\User"/>
       </argument>
     </service>
-    <service id=".service_locator.TqKXp.S" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.SxkK893" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\Api\LeakFileApi::updateArtists" type="service_closure" id=".service_locator.2nAiAEe"/>
@@ -6563,7 +6571,7 @@
         <argument key="App\Controller\ArtistController::restore" type="service_closure" id=".service_locator.eiWvEfv"/>
         <argument key="App\Controller\ArtistController::suspend" type="service_closure" id=".service_locator.eiWvEfv"/>
         <argument key="App\Controller\ArtistController::unsuspend" type="service_closure" id=".service_locator.eiWvEfv"/>
-        <argument key="App\Controller\ArtistController::viewArtist" type="service_closure" id=".service_locator.eiWvEfv"/>
+        <argument key="App\Controller\ArtistController::viewArtist" type="service_closure" id=".service_locator.HH7nFFL"/>
         <argument key="App\Controller\AuthController::generateAdmin" type="service_closure" id=".service_locator.dQsEc8u"/>
         <argument key="App\Controller\AuthController::login" type="service_closure" id=".service_locator.zFcJjKU"/>
         <argument key="App\Controller\LabelController::archive" type="service_closure" id=".service_locator.EnhlBww"/>
@@ -6599,7 +6607,7 @@
         <argument key="App\Controller\ArtistController:restore" type="service_closure" id=".service_locator.eiWvEfv"/>
         <argument key="App\Controller\ArtistController:suspend" type="service_closure" id=".service_locator.eiWvEfv"/>
         <argument key="App\Controller\ArtistController:unsuspend" type="service_closure" id=".service_locator.eiWvEfv"/>
-        <argument key="App\Controller\ArtistController:viewArtist" type="service_closure" id=".service_locator.eiWvEfv"/>
+        <argument key="App\Controller\ArtistController:viewArtist" type="service_closure" id=".service_locator.HH7nFFL"/>
         <argument key="App\Controller\AuthController:generateAdmin" type="service_closure" id=".service_locator.dQsEc8u"/>
         <argument key="App\Controller\AuthController:login" type="service_closure" id=".service_locator.zFcJjKU"/>
         <argument key="App\Controller\LabelController:archive" type="service_closure" id=".service_locator.EnhlBww"/>
@@ -7223,12 +7231,12 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.TqKXp.S"/>
+      <argument type="service" id=".service_locator.SxkK893"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.TqKXp.S"/>
+      <argument type="service" id=".service_locator.SxkK893"/>
     </service>
     <service id=".doctrine.orm.default_metadata_driver.inner" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
@@ -7238,6 +7246,7 @@
     </service>
     <service id=".errored..service_locator.xUrKPVU.Symfony\Component\Config\Loader\LoaderInterface" class="Symfony\Component\Config\Loader\LoaderInterface"/>
     <service id=".errored..service_locator.eiWvEfv.App\Entity\Artist" class="App\Entity\Artist"/>
+    <service id=".errored..service_locator.HH7nFFL.App\Entity\Artist" class="App\Entity\Artist"/>
     <service id=".errored..service_locator.EnhlBww.App\Entity\Label" class="App\Entity\Label"/>
     <service id=".errored..service_locator.4516oZ1.App\Entity\Tape" class="App\Entity\Tape"/>
     <service id=".errored..service_locator.mGVGY2G.App\Entity\Tape" class="App\Entity\Tape"/>
@@ -8091,7 +8100,7 @@
     <service id="Stof\DoctrineExtensionsBundle\Uploadable\UploadableManager" alias="stof_doctrine_extensions.uploadable.manager"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.gSv9zYw" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.TqKXp.S"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.SxkK893"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
     <service id="Psr\Log\LoggerInterface $consoleLogger" alias="monolog.logger.console"/>
@@ -8111,12 +8120,13 @@
     <service id=".service_locator.0GV1BZZ" alias=".service_locator.gSv9zYw"/>
     <service id=".service_locator.5nqtgbE" alias=".service_locator.eKUB4uF"/>
     <service id=".service_locator.0B6QDxm" alias=".service_locator.eiWvEfv"/>
+    <service id=".service_locator.KGF1Pj7" alias=".service_locator.HH7nFFL"/>
     <service id=".service_locator.oIoRNRj" alias=".service_locator.WX3QJxj"/>
     <service id=".service_locator.33tsZEy" alias=".service_locator.EnhlBww"/>
     <service id=".service_locator.8kg4WP8" alias=".service_locator.1Tq_AO3"/>
     <service id=".service_locator.jJ6S.1A" alias=".service_locator.KMVa22K"/>
     <service id=".service_locator.y5FqVj4" alias=".service_locator.mGVGY2G"/>
-    <service id=".service_locator.isfGIx7" alias=".service_locator.TqKXp.S"/>
+    <service id=".service_locator..yZjazT" alias=".service_locator.SxkK893"/>
     <service id=".service_locator.wKF4yn1" alias=".service_locator.19_mNxd"/>
     <service id=".service_locator.RoxAT6U" alias=".service_locator.AbEcyyU"/>
     <service id=".service_locator.985LqEy" alias=".service_locator.pWBC4xF"/>
@@ -8149,6 +8159,7 @@
     <service id=".service_locator.UNYEMes" alias=".service_locator.cg5DUby"/>
     <service id=".service_locator.oFNoRQm" alias=".service_locator.eKUB4uF"/>
     <service id=".service_locator.yHKD6lq" alias=".service_locator.eiWvEfv"/>
+    <service id=".service_locator.jKDOhAM" alias=".service_locator.HH7nFFL"/>
     <service id=".service_locator.mwVhwlw" alias=".service_locator.dQsEc8u"/>
     <service id=".service_locator.URfgn8g" alias=".service_locator.zFcJjKU"/>
     <service id=".service_locator.NBdX428" alias=".service_locator.WX3QJxj"/>

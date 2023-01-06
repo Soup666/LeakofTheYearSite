@@ -82,30 +82,31 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
         $this->displayBlock('head', $context, $blocks);
         // line 18
         echo "</head>
+
 <body>
 ";
-        // line 20
-        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 20, $this->source); })()), "user", [], "any", false, false, false, 20)) {
-            // line 21
+        // line 21
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 21, $this->source); })()), "user", [], "any", false, false, false, 21)) {
+            // line 22
             echo "    ";
-            $this->loadTemplate("home/_partial/navbar.html.twig", "home/frontend/base.html.twig", 21)->display($context);
+            $this->loadTemplate("home/_partial/navbar.html.twig", "home/frontend/base.html.twig", 22)->display($context);
         }
-        // line 23
-        echo "
-";
         // line 24
-        $this->displayBlock('body', $context, $blocks);
-        // line 61
         echo "
 ";
-        // line 63
+        // line 25
+        $this->displayBlock('body', $context, $blocks);
+        // line 62
+        echo "
+";
+        // line 64
         echo $this->extensions['Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension']->renderWebpackScriptTags("app");
         echo "
 
 ";
-        // line 65
-        $this->displayBlock('scripts', $context, $blocks);
         // line 66
+        $this->displayBlock('scripts', $context, $blocks);
+        // line 67
         echo "</body>
 </html>";
         
@@ -170,7 +171,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 24
+    // line 25
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -180,34 +181,34 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 25
+        // line 26
         echo "    <div class=\"main-content\">
         ";
-        // line 26
-        $this->displayBlock('body_start', $context, $blocks);
         // line 27
+        $this->displayBlock('body_start', $context, $blocks);
+        // line 28
         echo "
         <div class=\"container-fluid\">
             ";
-        // line 29
+        // line 30
         $this->displayBlock('header', $context, $blocks);
-        // line 50
-        echo "
-            ";
         // line 51
-        $this->loadTemplate("_partial/flash-messages.html.twig", "home/frontend/base.html.twig", 51)->display($context);
-        // line 52
         echo "
             ";
+        // line 52
+        $this->loadTemplate("_partial/flash-messages.html.twig", "home/frontend/base.html.twig", 52)->display($context);
         // line 53
+        echo "
+            ";
+        // line 54
         $this->displayBlock('main', $context, $blocks);
-        // line 56
+        // line 57
         echo "        </div>
 
         ";
-        // line 58
-        $this->displayBlock('body_end', $context, $blocks);
         // line 59
+        $this->displayBlock('body_end', $context, $blocks);
+        // line 60
         echo "    </div>
 ";
         
@@ -218,7 +219,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 26
+    // line 27
     public function block_body_start($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -236,7 +237,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 29
+    // line 30
     public function block_header($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -246,31 +247,31 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "header"));
 
-        // line 30
+        // line 31
         echo "                <div class=\"header\">
                     <div class=\"header-body\">
                         <div class=\"row align-items-center\">
                             <div class=\"col\">
                                 <h6 class=\"header-pretitle\">
                                     ";
-        // line 35
-        $this->displayBlock('header_pretitle', $context, $blocks);
         // line 36
+        $this->displayBlock('header_pretitle', $context, $blocks);
+        // line 37
         echo "                                </h6>
 
                                 <h1 class=\"header-title\">
                                     ";
-        // line 39
-        $this->displayBlock('header_title', $context, $blocks);
         // line 40
+        $this->displayBlock('header_title', $context, $blocks);
+        // line 41
         echo "                                </h1>
                             </div>
 
                             <div class=\"col-auto\">
                                 ";
-        // line 44
-        $this->displayBlock('header_actions', $context, $blocks);
         // line 45
+        $this->displayBlock('header_actions', $context, $blocks);
+        // line 46
         echo "                            </div>
                         </div>
                     </div>
@@ -284,7 +285,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 35
+    // line 36
     public function block_header_pretitle($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -294,7 +295,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "header_pretitle"));
 
-        (((twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "pretitle", [], "any", true, true, false, 35) &&  !(null === twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "pretitle", [], "any", false, false, false, 35)))) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "pretitle", [], "any", false, false, false, 35), "html", null, true))) : (print ("")));
+        (((twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "pretitle", [], "any", true, true, false, 36) &&  !(null === twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "pretitle", [], "any", false, false, false, 36)))) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "pretitle", [], "any", false, false, false, 36), "html", null, true))) : (print ("")));
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -303,7 +304,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 39
+    // line 40
     public function block_header_title($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -313,7 +314,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "header_title"));
 
-        (((twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "title", [], "any", true, true, false, 39) &&  !(null === twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "title", [], "any", false, false, false, 39)))) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "title", [], "any", false, false, false, 39), "html", null, true))) : (print ("")));
+        (((twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "title", [], "any", true, true, false, 40) &&  !(null === twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "title", [], "any", false, false, false, 40)))) ? (print (twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, ($context["header"] ?? null), "title", [], "any", false, false, false, 40), "html", null, true))) : (print ("")));
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -322,7 +323,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 44
+    // line 45
     public function block_header_actions($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -340,7 +341,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 53
+    // line 54
     public function block_main($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -350,9 +351,9 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "main"));
 
-        // line 54
-        echo "                ";
         // line 55
+        echo "                ";
+        // line 56
         echo "            ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -362,7 +363,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 58
+    // line 59
     public function block_body_end($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -380,7 +381,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     }
 
-    // line 65
+    // line 66
     public function block_scripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -410,7 +411,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     public function getDebugInfo()
     {
-        return array (  384 => 65,  366 => 58,  356 => 55,  354 => 54,  344 => 53,  326 => 44,  307 => 39,  288 => 35,  274 => 45,  272 => 44,  266 => 40,  264 => 39,  259 => 36,  257 => 35,  250 => 30,  240 => 29,  222 => 26,  211 => 59,  209 => 58,  205 => 56,  203 => 53,  200 => 52,  198 => 51,  195 => 50,  193 => 29,  189 => 27,  187 => 26,  184 => 25,  174 => 24,  156 => 17,  138 => 10,  120 => 7,  109 => 66,  107 => 65,  102 => 63,  99 => 61,  97 => 24,  94 => 23,  90 => 21,  88 => 20,  84 => 18,  82 => 17,  79 => 16,  74 => 13,  71 => 11,  68 => 10,  63 => 7,  55 => 1,);
+        return array (  385 => 66,  367 => 59,  357 => 56,  355 => 55,  345 => 54,  327 => 45,  308 => 40,  289 => 36,  275 => 46,  273 => 45,  267 => 41,  265 => 40,  260 => 37,  258 => 36,  251 => 31,  241 => 30,  223 => 27,  212 => 60,  210 => 59,  206 => 57,  204 => 54,  201 => 53,  199 => 52,  196 => 51,  194 => 30,  190 => 28,  188 => 27,  185 => 26,  175 => 25,  157 => 17,  139 => 10,  121 => 7,  110 => 67,  108 => 66,  103 => 64,  100 => 62,  98 => 25,  95 => 24,  91 => 22,  89 => 21,  84 => 18,  82 => 17,  79 => 16,  74 => 13,  71 => 11,  68 => 10,  63 => 7,  55 => 1,);
     }
 
     public function getSourceContext()
@@ -433,6 +434,7 @@ class __TwigTemplate_f765c52b2f9558337714aba5ab5d668a extends Template
 
     {% block head %}{% endblock %}
 </head>
+
 <body>
 {% if app.user %}
     {% include 'home/_partial/navbar.html.twig' %}
