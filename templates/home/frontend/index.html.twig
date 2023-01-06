@@ -25,7 +25,11 @@
                     <div class="row">
                         <div class="col">
                         <a href="{{ path('view_tape', {'id': t.id}) }}">
+                            {% if t.cover is defined and t.cover != '' %}
                             <img src="/uploads/covers/{{ t.cover }}" width="100%" alt="cover">
+                            {% else %}
+                                <img src="{{ genius.getArtistProfilePic(t.getMainArtist.name) }}" alt="" class="avatar-img">
+                                {% endif %}
                         </a>
                     </div>
                     </div>

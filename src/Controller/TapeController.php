@@ -246,7 +246,6 @@ class TapeController extends AbstractController
     #[Route('/tape/view/{id}', name: 'view_tape')]
     public function viewTape(GeniusService $genius, FTPService $ftpservice, ManagerRegistry $managerRegistry, Tape $tape, Request $request): Response
     {
-
         $form = $this->createForm(ReviewType::class);
         $form->handleRequest($request);
 
@@ -279,6 +278,7 @@ class TapeController extends AbstractController
             "reviews" => $reviews,
             'geniusSearch' => $genius->searchHtml($tape->getMainArtist()->getName()),
             'path' => $path,
+            'genius' => $genius
         ]);
     }
 }

@@ -23,6 +23,21 @@ class GeniusService
         }
     }
 
+//    public function getAlbumId(string $artist, string $album): bool|int
+//    {
+//        dd($this->getArtistMeta('lil uzi vert'));
+//        $url = 'https://api.genius.com/search?q=' . urlencode($artist) . '-' . urlencode($album) . '&access_token=' . $this->apiKey;
+//        $response = json_decode(file_get_contents($url), true);
+//        $response = $response['response']['hits'];
+//        dd($response,$url);
+//        foreach ($response as $hit) {
+//            if ($hit['result']['primary_artist']['name'] === $artist && $hit['result']['title'] === $album) {
+//                return $hit['result']['id'];
+//            }
+//        }
+//        return false;
+//    }
+
     public function getAlbum(int $id) {
         $url = 'https://api.genius.com/albums/' . $id . '?access_token=' . $this->apiKey;
         $curl = curl_init();

@@ -414,7 +414,7 @@ class Tape
     }
 
     public function getAssociateCover() : ?string {
-        return $this->getTapes()->first()->getCover();
+        return $this->getTapes()->toArray() !== [] ? $this->getTapes()->first()->getCover() : null;
     }
 
     public function getAudioFile(): ?string

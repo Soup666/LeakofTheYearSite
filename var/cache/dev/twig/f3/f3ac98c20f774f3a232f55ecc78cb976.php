@@ -132,19 +132,31 @@ class __TwigTemplate_a041fd06386b6ff4216a723684146114 extends Template
             // line 27
             echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("view_tape", ["id" => twig_get_attribute($this->env, $this->source, $context["t"], "id", [], "any", false, false, false, 27)]), "html", null, true);
             echo "\">
-                            <img src=\"/uploads/covers/";
+                            ";
             // line 28
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["t"], "cover", [], "any", false, false, false, 28), "html", null, true);
-            echo "\" width=\"100%\" alt=\"cover\">
-                        </a>
+            if ((twig_get_attribute($this->env, $this->source, $context["t"], "cover", [], "any", true, true, false, 28) && (twig_get_attribute($this->env, $this->source, $context["t"], "cover", [], "any", false, false, false, 28) != ""))) {
+                // line 29
+                echo "                            <img src=\"/uploads/covers/";
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["t"], "cover", [], "any", false, false, false, 29), "html", null, true);
+                echo "\" width=\"100%\" alt=\"cover\">
+                            ";
+            } else {
+                // line 31
+                echo "                                <img src=\"";
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["genius"]) || array_key_exists("genius", $context) ? $context["genius"] : (function () { throw new RuntimeError('Variable "genius" does not exist.', 31, $this->source); })()), "getArtistProfilePic", [0 => twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["t"], "getMainArtist", [], "any", false, false, false, 31), "name", [], "any", false, false, false, 31)], "method", false, false, false, 31), "html", null, true);
+                echo "\" alt=\"\" class=\"avatar-img\">
+                                ";
+            }
+            // line 33
+            echo "                        </a>
                     </div>
                     </div>
 
                     <div class=\"row mt-3\">
                         <div class=\"col\">
                             <h5>";
-            // line 35
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["t"], "name", [], "any", false, false, false, 35), "html", null, true);
+            // line 39
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["t"], "name", [], "any", false, false, false, 39), "html", null, true);
             echo "</h5>
                         </div>
                     </div>
@@ -152,10 +164,10 @@ class __TwigTemplate_a041fd06386b6ff4216a723684146114 extends Template
                     <div class=\"row\">
                         <div class=\"col\">
                             <span class=\"badge bg-secondary\"><a href=\"";
-            // line 41
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("view_artist", ["id" => twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["t"], "getMainArtist", [], "any", false, false, false, 41), "id", [], "any", false, false, false, 41)]), "html", null, true);
+            // line 45
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("view_artist", ["id" => twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["t"], "getMainArtist", [], "any", false, false, false, 45), "id", [], "any", false, false, false, 45)]), "html", null, true);
             echo "\" class=\"text-white\">";
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["t"], "getMainArtist", [], "any", false, false, false, 41), "name", [], "any", false, false, false, 41), "html", null, true);
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, $context["t"], "getMainArtist", [], "any", false, false, false, 45), "name", [], "any", false, false, false, 45), "html", null, true);
             echo "</a></span>
                         </div>
                     </div>
@@ -165,8 +177,8 @@ class __TwigTemplate_a041fd06386b6ff4216a723684146114 extends Template
                     <div class=\"row mt-3\">
                         <div class=\"col\">
                                 <span class=\"badge bg-success\"><strong>";
-            // line 49
-            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["t"], "getAverageScore", [], "any", false, false, false, 49), "html", null, true);
+            // line 53
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, $context["t"], "getAverageScore", [], "any", false, false, false, 53), "html", null, true);
             echo "</strong></span> - Average Score
                         </div>
                     </div>
@@ -176,7 +188,7 @@ class __TwigTemplate_a041fd06386b6ff4216a723684146114 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['t'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 54
+        // line 58
         echo "        </div>
     </div>
     <div class=\"col-3\"></div>
@@ -202,7 +214,7 @@ class __TwigTemplate_a041fd06386b6ff4216a723684146114 extends Template
 
     public function getDebugInfo()
     {
-        return array (  180 => 54,  169 => 49,  156 => 41,  147 => 35,  137 => 28,  133 => 27,  128 => 24,  124 => 23,  107 => 8,  97 => 7,  79 => 5,  60 => 3,  37 => 1,);
+        return array (  192 => 58,  181 => 53,  168 => 45,  159 => 39,  151 => 33,  145 => 31,  139 => 29,  137 => 28,  133 => 27,  128 => 24,  124 => 23,  107 => 8,  97 => 7,  79 => 5,  60 => 3,  37 => 1,);
     }
 
     public function getSourceContext()
@@ -234,7 +246,11 @@ class __TwigTemplate_a041fd06386b6ff4216a723684146114 extends Template
                     <div class=\"row\">
                         <div class=\"col\">
                         <a href=\"{{ path('view_tape', {'id': t.id}) }}\">
+                            {% if t.cover is defined and t.cover != '' %}
                             <img src=\"/uploads/covers/{{ t.cover }}\" width=\"100%\" alt=\"cover\">
+                            {% else %}
+                                <img src=\"{{ genius.getArtistProfilePic(t.getMainArtist.name) }}\" alt=\"\" class=\"avatar-img\">
+                                {% endif %}
                         </a>
                     </div>
                     </div>

@@ -67,7 +67,7 @@ class __TwigTemplate_fc4cb27570b51689836405b93a11e117 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
-        echo "Homepage";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["artist"]) || array_key_exists("artist", $context) ? $context["artist"] : (function () { throw new RuntimeError('Variable "artist" does not exist.', 12, $this->source); })()), "name", [], "any", false, false, false, 12), "html", null, true);
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -404,7 +404,7 @@ class __TwigTemplate_fc4cb27570b51689836405b93a11e117 extends Template
 
 {% extends 'home/frontend/base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}{{ artist.name }}{% endblock %}
 
 {% block header %}{% endblock %}
 
